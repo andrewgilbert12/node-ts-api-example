@@ -2,7 +2,7 @@ import {Router, Request, Response} from 'express';
 import * as Debug from 'debug';
 const debug = Debug('server:shop-router');
 
-import Shop from '../models/Shop';
+import {Shop, ErrMsg} from '../models/Shop';
 
 
 /**
@@ -11,14 +11,14 @@ import Shop from '../models/Shop';
  * adds it to the data set, returning the id of the new coffee shop.
  */
 function createShop(req: Request, res: Response): void {
-    let shop = new Shop();
+    let shop : Shop = new Shop();
 
     shop.name = req.body.name;
     shop.address = req.body.address;
     shop.lat = parseFloat(req.body.lat);
     shop.lng = parseFloat(req.body.lng);
 
-    let err = shop.save();
+    let err : ErrMsg = shop.save();
 
     if (err) {
         res.status(400).send(err);
@@ -36,7 +36,7 @@ function createShop(req: Request, res: Response): void {
  * of the coffee shop with that id, or a 404 error if it is not found.
  */
 function readShop(req: Request, res: Response): void {
-    let shop = Shop.findById(parseInt(req.params.id));
+    let shop : Shop = Shop.findById(parseInt(req.params.id));
 
     if (shop) {
         res.status(200).send({
@@ -58,14 +58,14 @@ function readShop(req: Request, res: Response): void {
  */
 function updateShop(req: Request, res: Response): void {
 
-    let updateParams = {};
+    let updateParams : any = {};
 
     updateParams.name = req.body.name;
     updateParams.address = req.body.address;
     updateParams.lat = parseFloat(req.body.lat);
     updateParams.lng = parseFloat(req.body.lng);
 
-    let err = Shop.update(parseInt(req.params.id), updateParams);
+    let err : ErrMsg = Shop.update(parseInt(req.params.id), updateParams);
 
     if (err) {
         console.log(`trying to return status ${err.status}`);
@@ -82,7 +82,7 @@ function updateShop(req: Request, res: Response): void {
  * Accepts an id and deletes the coffee shop with that id, or returns an error if it is not found
  */
 function deleteShop(req: Request, res: Response): void {
-    let err = Shop.remove(parseInt(req.params.id));
+    let err : ErrMsg = Shop.remove(parseInt(req.params.id));
 
     if (err) {
         res.status(404).send(err);

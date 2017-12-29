@@ -2,8 +2,9 @@ import * as Debug from 'debug';
 const debug = Debug('server:shop-loader');
 
 // Simple error message that some functions in Shop return
-class ErrMsg {
+export interface ErrMsg {
     message: string;
+    status?: number;
 }
 
 // initialize Shop with data from CSV
@@ -27,7 +28,7 @@ debug('CSV loaded. next id: ' + nextIdFromCSV);
 
 // Class for representing a concrete shop object, with static utility functions for search
 // In production environment would probably want to use a mongoose schema, etc.
-class Shop {
+export class Shop {
     // Used in lieu of a database to store shop info
     private static shopList: Array<Shop> = defaultShopsFromCSV;
     private static nextId : number = nextIdFromCSV;
@@ -80,7 +81,7 @@ class Shop {
     // Returns an error if there is no shop with the given id number,
     // or if new values of lat/lng specified in opts are ill-defined
     public static update(id: number, opts: {name: string, address: string, lat: number, lng: number}): ErrMsg {
-        let toUpdate : Shop = {};
+        let toUpdate : any = {};
 
         let shop: Shop = Shop.findById(id);
 
