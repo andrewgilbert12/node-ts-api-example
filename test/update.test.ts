@@ -15,7 +15,7 @@ describe('Update: PUT /api/v1/shops/:id', () => {
             .catch(err => expect(err).to.have.status(404));
     });
 
-    it('should fail with 404 for invalid data', () => {
+    it('should fail with 400 for invalid data', () => {
         // invalid lat value
         let lat_res = chai.request(app).put('/api/v1/shops/10')
             .send({lat: 100})
