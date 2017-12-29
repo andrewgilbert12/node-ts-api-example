@@ -36,8 +36,14 @@ export class Shop {
     // All other fields are optional
     private static requiredFields : Array<string> = ['name', 'address', 'lat', 'lng'];
 
-    // Fields
-    public id: number;
+    constructor() {
+        this.id = Shop.nextId;
+        Shop.nextId++;
+    }
+
+    // Fields - todo: should ideally not use public methods since it introduces a backdoor for
+    // putting garbage data into the DB, but I am mimicking mongoose object functionality
+    readonly id: number;
     public name: string;
     public address: string;
     public lat: number;
@@ -65,8 +71,6 @@ export class Shop {
 
         }
 
-        this.id = Shop.nextId;
-        Shop.nextId++;
         Shop.shopList.push(this);
 
         return null;

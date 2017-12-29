@@ -67,7 +67,6 @@ function updateShop(req: Request, res: Response): void {
     let err : ErrMsg = Shop.update(parseInt(req.params.id), updateParams);
 
     if (err) {
-        console.log(`trying to return status ${err.status}`);
         res.status(err.status).send({
             message: err.message
         });
