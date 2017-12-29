@@ -11,10 +11,7 @@ describe('Nearest: GET /api/v1/nearest', () => {
 
     it('should fail with 400 on invalid request', () => {
         return chai.request(app).get('/api/v1/nearest') // no data
-            .catch(err => err.response)
-            .then(res => {
-                expect(res).to.have.status(400);
-            });
+            .catch(err => expect(err).to.have.status(400));
     });
 
     it('should return 200, correct info in json format (1/2: 535 Mission St)', () => {
@@ -50,6 +47,14 @@ describe('Nearest: GET /api/v1/nearest', () => {
                     "lat": 37.76702438676065,
                     "lng": -122.42195860692624 });
             });
+    });
+
+    it('should return 404 for an invalid address', () => {
+        return chai.request(app).get('/api/v1/nearest')
+            .query({
+                "address": "soiejfiosejgoisjgiosjgosijgsiogjsogjisoejkafhgijdoskdb",
+            })
+            .catch(err => expect(err).to.have.status(404));
     });
 
     // todo: geocoding service outage test?

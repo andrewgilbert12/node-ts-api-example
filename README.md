@@ -5,7 +5,7 @@ To setup and run the server, clone the repository and execute the following comm
 ```bash
 $ npm install
 $ gulp
-todo: google API key instructions
+$ export GOOGLE_API_KEY=**insert api key here** # this step is optional, but without an API key the nearest endpoint will be prone to rate limiting
 $ npm start
 ```
 To run unit tests:
@@ -210,6 +210,9 @@ $ http DELETE <URL>/api/v1/shop/999999
  
 * **Error Response:** 
   * **Code:** 400 BAD REQUEST <br />
+    **Cause:** No address entered.
+
+  * **Code:** 404 NOT FOUND <br />
     **Cause:** Address server can't find valid lat/lng coordinates for the requested address.
 
   * **Code:** 503 SERVICE UNAVAILABLE <br />
@@ -248,5 +251,16 @@ $ http GET <URL>/api/v1/nearest?address='252 Guerrero St, San Francisco, CA 9410
     }
 }
 
-todo: failure example
+http localhost:3000/api/v1/nearest
+
+{
+    "message": "Please specify an address."
+}
+
+http localhost:3000/api/v1/nearest?address=soiejfiosejgoisjgiosjgosijgsiogjsogjisoejkafhgijdoskdb
+
+{
+    "message": "Address entered could not be found.",
+    "requestedAddress": "soiejfiosejgoisjgiosjgosijgsiogjsogjisoejkafhgijdoskdb"
+}
 ```

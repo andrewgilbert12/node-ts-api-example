@@ -19,19 +19,33 @@ function findNearestShop(req: Request, res: Response, next: NextFunction): void 
         return;
     }
 
-    request('https://maps.googleapis.com/maps/api/geocode/json?address=' + address, (err, addrRes, body) => {
+    let geocodeReqURL : string = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + address;
+
+    if (process.env.GOOGLE_API_KEY) {
+        geocodeReqURL += '&key=' + process.env.GOOGLE_API_KEY;
+    }
+
+    request(geocodeReqURL, (err, addrRes, body) => {
         let bodyJSON = JSON.parse(body);
 
-        // Fail on Geolocation API error
-        if (err || ! bodyJSON.results || ! bodyJSON.results[0] || ! bodyJSON.results[0].geometry ||
-            ! bodyJSON.results[0].geometry.location || ! bodyJSON.results[0].geometry.location.lat ||
-        ! bodyJSON.results[0].geometry.location.lng) {
+        if (err || bodyJSON.error_message) {
+            // Service unavailable - usually caused by reaching API quota
             res.status(500)
                 .send({
                     message: 'Address search service failure.',
                     requestedAddress: address
                 });
+        } else if (! bodyJSON.results || ! bodyJSON.results[0] || ! bodyJSON.results[0].geometry ||
+            ! bodyJSON.results[0].geometry.location || ! bodyJSON.results[0].geometry.location.lat ||
+            ! bodyJSON.results[0].geometry.location.lng) {
+            // No results
+            res.status(404)
+                .send({
+                    message: 'Address entered could not be found.',
+                    requestedAddress: address
+                });
         } else {
+            // Completed successfully - there will always be a closest point so no more errors possible
             let lat = bodyJSON.results[0].geometry.location.lat;
             let lng = bodyJSON.results[0].geometry.location.lng;
 
