@@ -86,7 +86,8 @@ class Shop {
 
         if (!shop) {
             return {
-                message: 'Requested id not found'
+                message: 'Requested id not found',
+                status: 404
             };
         }
 
@@ -95,7 +96,8 @@ class Shop {
             toUpdate.lat = opts.lat;
             if (!Shop.latValidation(toUpdate.lat)) {
                 return {
-                    message: 'lat must be a number between -90 and 90'
+                    message: 'lat must be a number between -90 and 90',
+                    status: 400
                 };
             }
         }
@@ -104,7 +106,8 @@ class Shop {
             toUpdate.lng = opts.lng;
             if (!Shop.lngValidation(toUpdate.lng)) {
                 return {
-                    message: 'lng must be a number between -180 and 180'
+                    message: 'lng must be a number between -180 and 180',
+                    status: 400
                 };
             }
         }
