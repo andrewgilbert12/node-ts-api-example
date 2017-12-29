@@ -45,8 +45,7 @@ function readShop(req: Request, res: Response): void {
         });
     } else {
         res.status(404).send({
-            message: 'Requested id does not exist',
-            requestedId: req.params.id
+            message: 'Requested id not found'
         });
     }
 }
@@ -85,7 +84,9 @@ function deleteShop(req: Request, res: Response): void {
     let err : ErrMsg = Shop.remove(parseInt(req.params.id));
 
     if (err) {
-        res.status(404).send(err);
+        res.status(404).send({
+            message: err.message
+        });
     } else {
         res.status(204).end();
     }

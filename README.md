@@ -49,20 +49,20 @@ POST api/v1/shop
 * **Example:**
 
 ```json
-$ http POST <URL>/api/v1/shop name='New Coffee Shop' address='100 Coffee St' lat=70 lng=-100.10
+$ http POST <URL>/api/v1/shops name='New Coffee Shop' address='100 Coffee St' lat=70 lng=-100.10
 
 {
     "message": "success",
     "shop": {
         "address": "100 Coffee St",
-        "id": 16,
+        "id": 57,
         "lat": 70,
-        "lng": -100.10,
+        "lng": -100.1,
         "name": "New Coffee Shop"
     }
 }
 
-$ http POST <URL>/api/v1/shop name='New Coffee Shop' address='100 Coffee St' lat=170 lng=-100.10
+$ http POST <URL>/api/v1/shops name='New Coffee Shop' address='100 Coffee St' lat=170 lng=-100.10
 
 {
     "message": "lat must be between -90 and 90",
@@ -76,7 +76,7 @@ $ http POST <URL>/api/v1/shop name='New Coffee Shop' address='100 Coffee St' lat
 
 * **Endpoint:**
 
-  GET api/v1/shop/:id
+  GET api/v1/shops/:id
 
 * **Success Response:**
   
@@ -90,7 +90,7 @@ $ http POST <URL>/api/v1/shop name='New Coffee Shop' address='100 Coffee St' lat
 * **Example:**
 
 ```json
-$ http GET <URL>/api/v1/shop/10
+$ http GET <URL>/api/v1/shops/10
 
 {
     "message": "success",
@@ -103,10 +103,10 @@ $ http GET <URL>/api/v1/shop/10
     }
 }
 
-$ http GET <URL>/api/v1/shop/999999
+$ http GET <URL>/api/v1/shops/999999
 
 {
-    "message": "Requested id does not exist",
+    "message": "Requested id not found"
 }
 
 ```
@@ -119,7 +119,7 @@ $ http GET <URL>/api/v1/shop/999999
 
 * **Endpoint:**
 
-  PUT api/v1/shop/:id
+  PUT api/v1/shops/:id
 
 * **Data Params**
 
@@ -147,14 +147,14 @@ $ http GET <URL>/api/v1/shop/999999
 * **Example:**
 
 ```json
-$ http PUT <URL>/api/v1/shop/10 address="New Address" lat=80 lng=-100.10
+$ http PUT <URL>/api/v1/shops/10 address="New Address" lat=80 lng=-100.10
 
 204, no content
 
-$ http PUT <URL>/api/v1/shop/999999 address="New Address" lat=80 lng=-100.10
+$ http PUT <URL>/api/v1/shops/999999 address="New Address" lat=80 lng=-100.10
 
 {
-    "message": "Requested id does not exist",
+    "message": "Requested id not found"
 }
 
 ```
@@ -165,7 +165,7 @@ $ http PUT <URL>/api/v1/shop/999999 address="New Address" lat=80 lng=-100.10
 
 * **Endpoint:**
 
-  DELETE api/v1/shop/:id
+  DELETE api/v1/shops/:id
 
 * **Success Response:**
   
@@ -179,14 +179,14 @@ $ http PUT <URL>/api/v1/shop/999999 address="New Address" lat=80 lng=-100.10
 * **Example:**
 
 ```json
-$ http DELETE <URL>/api/v1/shop/10
+$ http DELETE <URL>/api/v1/shops/10
 
 204, no content
 
-$ http DELETE <URL>/api/v1/shop/999999
+$ http DELETE <URL>/api/v1/shops/999999
 
 {
-    "message": "Requested id does not exist",
+    "message": "Requested id not found"
 }
 
 ```
