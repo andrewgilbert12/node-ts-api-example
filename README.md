@@ -8,6 +8,11 @@ $ gulp
 todo: google API key instructions
 $ npm start
 ```
+To run unit tests:
+
+```bash
+$ npm test
+```
 
 The API is used for finding the nearest coffee shop relative to a given address and has the following endpoints:
 
