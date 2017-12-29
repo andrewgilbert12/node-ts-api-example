@@ -18,33 +18,41 @@ describe('Update: PUT /api/v1/shops/:id', () => {
             });
     });
 
-    // todo: make sure this promise idiom works
     it('should fail with 404 for invalid data', () => {
         // invalid lat value
         let lat_res = chai.request(app).put('/api/v1/shops/10')
-            .send({lat: 200})
-            .catch(err => err.response);
+            .send({lat: 100})
+            .catch(err => err);
 
         // invalid lng value
         let lng_res = chai.request(app).put('/api/v1/shops/10')
             .send({lng: 200})
-            .catch(err => err.response);
+            .catch(err => err);
 
         return Promise.all([
-            expect(lat_res).to.have.status(400),
-            expect(lng_res).to.have.status(400)
-        ]);
-
+            lat_res,
+            lng_res
+        ])
+            .then(responses => {
+                responses.forEach(res => {
+                    expect(res).to.have.status(400);
+                });
+            });
     });
 
-    it('should return 204 on valid request', () => {
-        return chai.request(app).put('/api/v1/shops/10')
+    it('should return 204 on valid request, data should be updated', (done) => {
+        chai.request(app).put('/api/v1/shops/10')
             .send({lat: 80})
-            .then(res => {
+            .end((err, res) => {
+                expect(err).to.be.null;
                 expect(res).to.have.status(204);
+
                 chai.request(app).get('/api/v1/shops/10')
-                    .then(res => {
+                    .end((err, res) => {
+                        expect(err).to.be.null;
                         expect(res.body.shop).to.have.property('lat', 80);
+
+                        done();
                     });
             });
     });
