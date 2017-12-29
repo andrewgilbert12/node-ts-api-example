@@ -73,14 +73,14 @@ describe('Create: POST /api/v1/shops', () => {
             })
             .end((err, res) => {
                 expect(err).to.be.null;
-                expect(res).to.have.status('201');
+                expect(res).to.have.status(201);
                 expect(res.body).to.have.property('shop');
 
                 let id = res.body.shop.id;
                 chai.request(app).get('/api/v1/shops/' + id)
                     .end((err, res) => {
                         expect(err).to.be.null;
-                        expect(res).to.have.status('200');
+                        expect(res).to.have.status(200);
                         expect(res.body.shop).to.have.property("name", "New Coffee Shop");
                         expect(res.body.shop).to.have.property("address", "100 Coffee St");
                         expect(res.body.shop).to.have.property("lat", 80.30);

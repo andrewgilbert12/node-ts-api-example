@@ -12,10 +12,7 @@ describe('Update: PUT /api/v1/shops/:id', () => {
     it('should fail with 404 for invalid id', () => {
         return chai.request(app).put('/api/v1/shops/999999')
             .send({lat: 80})
-            .catch(err => err.response)
-            .then(res => {
-                expect(res).to.have.status(404);
-            });
+            .catch(err => expect(err).to.have.status(404));
     });
 
     it('should fail with 404 for invalid data', () => {

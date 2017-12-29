@@ -11,16 +11,13 @@ describe('Find: GET /api/v1/shops/:id', () => {
 
     it('should fail with 404 for invalid shop id', () => {
         return chai.request(app).get('/api/v1/shops/999999')
-            .catch(err => err.response)
-            .then(res => {
-                expect(res).to.have.status('404');
-            });
+            .catch(err => expect(err).to.have.status(404));
     });
 
     it('should return 200 and shop info for valid shop id', () => {
         return chai.request(app).get('/api/v1/shops/16')
             .then(res => {
-                expect(res).to.have.status('200');
+                expect(res).to.have.status(200);
                 expect(res.type).to.eql('application/json');
                 expect(res.body.shop).to.eql({
                     "id": 16,

@@ -22,7 +22,7 @@ describe('Delete: DELETE /api/v1/shops/:id', () => {
 
                 chai.request(app).get('/api/v1/shops/1')
                 .end((err, res) => {
-                    expect(res).to.have.status('404');
+                    expect(res).to.have.status(404);
                     done();
                 });
             });
@@ -30,10 +30,7 @@ describe('Delete: DELETE /api/v1/shops/:id', () => {
 
     it('should fail with 404 on attempt to delete id twice', () => {
         return chai.request(app).delete('/api/v1/shops/1')
-            .catch(err => err.response)
-            .then(res => {
-                expect(res).to.have.status('404');
-            });
+            .catch(err => expect(err).to.have.status(404));
     });
 
 });
