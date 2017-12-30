@@ -30,7 +30,7 @@ function findNearestShop(req: Request, res: Response, next: NextFunction): void 
 
         if (err || bodyJSON.error_message) {
             // Service unavailable - usually caused by reaching API quota
-            res.status(500)
+            res.status(503)
                 .send({
                     message: 'Address search service failure.',
                     requestedAddress: address
