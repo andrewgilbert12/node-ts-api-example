@@ -13,12 +13,14 @@ import {Shop, ErrMsg} from '../models/Shop';
 function createShop(req: Request, res: Response): void {
     let shop : Shop = new Shop();
 
-    shop.name = req.body.name;
-    shop.address = req.body.address;
-    shop.lat = parseFloat(req.body.lat);
-    shop.lng = parseFloat(req.body.lng);
+    let saveParams : any = {};
 
-    let err : ErrMsg = shop.save();
+    saveParams.name = req.body.name;
+    saveParams.address = req.body.address;
+    saveParams.lat = parseFloat(req.body.lat);
+    saveParams.lng = parseFloat(req.body.lng);
+
+    let err : ErrMsg = shop.save(saveParams);
 
     if (err) {
         res.status(400).send(err);

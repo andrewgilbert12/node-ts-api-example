@@ -41,36 +41,40 @@ export class Shop {
         Shop.nextId++;
     }
 
-    // Fields - todo: should ideally not use public methods since it introduces a backdoor for
-    // putting garbage data into the DB, but I am mimicking mongoose object functionality
+    // Fields
     readonly id: number;
-    public name: string;
-    public address: string;
-    public lat: number;
-    public lng: number;
+    readonly name: string;
+    readonly address: string;
+    readonly lat: number;
+    readonly lng: number;
 
     // Saves the shop, returning null, or returns object describing error on failure
-    public save(): ErrMsg {
-        if (!Shop.requiredFields.every(f => this[f])) {
+    public save(opts: {name: string, address: string, lat: number, lng: number}): ErrMsg {
+
+        if (!Shop.requiredFields.every(f => opts[f])) {
             return {
                 message: 'A new shop must have name, address, lat, long specified'
             };
         }
 
-        if (!Shop.latValidation(this.lat)) {
+        if (!Shop.latValidation(opts.lat)) {
             return {
                 message: 'lat must be a number between -90 and 90'
             };
 
         }
 
-        if (!Shop.lngValidation(this.lng)) {
+        if (!Shop.lngValidation(opts.lng)) {
             return {
                 message: 'lng must be a number between -180 and 180'
             };
 
         }
 
+        // todo: if we add optional fields later, this would need to be changed!
+        Shop.requiredFields.forEach(f => {
+            this[f] = opts[f];
+        });
         Shop.shopList.push(this);
 
         return null;
@@ -85,7 +89,7 @@ export class Shop {
     // Returns an error if there is no shop with the given id number,
     // or if new values of lat/lng specified in opts are ill-defined
     public static update(id: number, opts: {name: string, address: string, lat: number, lng: number}): ErrMsg {
-        let toUpdate : any = {};
+        let toUpdate : any = {}; // the properties to be updated on the shop
 
         let shop: Shop = Shop.findById(id);
 
