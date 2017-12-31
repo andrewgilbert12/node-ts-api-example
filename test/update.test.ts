@@ -39,7 +39,10 @@ describe('Update: PUT /api/v1/shops/:id', () => {
 
     it('should return 204 on valid request, data should be updated', (done) => {
         chai.request(app).put('/api/v1/shops/10')
-            .send({lat: 80})
+            .send({
+                lat: 80,
+                lng: -80
+            })
             .end((err, res) => {
                 expect(err).to.be.null;
                 expect(res).to.have.status(204);
@@ -48,6 +51,7 @@ describe('Update: PUT /api/v1/shops/:id', () => {
                     .end((err, res) => {
                         expect(err).to.be.null;
                         expect(res.body.shop).to.have.property('lat', 80);
+                        expect(res.body.shop).to.have.property('lng', -80);
 
                         done();
                     });
